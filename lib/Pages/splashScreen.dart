@@ -32,7 +32,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future pushRoute(){
-    return Future.delayed(const Duration(seconds: 5), () => Navigator.pushNamed(context, PreIndex));
+    return Future.delayed(const Duration(seconds: 5), () => Navigator.pushNamed(context, HybridAuth));
 
   }
 

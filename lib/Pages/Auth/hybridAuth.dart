@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bukalemun/Constants/routerConstants.dart';
+
 
 class HybridAuth extends StatelessWidget {
   const HybridAuth({Key key}) : super(key: key);
@@ -6,7 +9,7 @@ class HybridAuth extends StatelessWidget {
   Widget registerConferenceButton(BuildContext context) {
     final media = MediaQuery.of(context);
     final String title = "Register your Conference";
-    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 22,color: Colors.white,fontStyle: FontStyle.italic);
+    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 20,color: Colors.white,fontWeight: FontWeight.w100);
     return Container(
       width: media.size.width * (17 / 20),
       height: (media.size.width * (17 / 20)) / 6,
@@ -23,37 +26,43 @@ class HybridAuth extends StatelessWidget {
   Widget loginButton(BuildContext context) {
     final media = MediaQuery.of(context);
     final String title = "Login";
-    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 22,color: Color.fromRGBO(101, 173, 132, 1),fontStyle: FontStyle.italic);
+    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 20,color: Color.fromRGBO(101, 173, 132, 1),fontWeight: FontWeight.w100);
 
-    return Container(
-      width: media.size.width * (17 / 20),
-      height: (media.size.width * (17 / 20)) / 6,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15),blurRadius: 0.5,spreadRadius: 0.5),],
-          borderRadius:
-              BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
-      child: new Center(
-        child: new Text(title,style: titleStyle,),
+    return CupertinoButton(
+      onPressed: ()  {Navigator.pushNamed(context, LoginPage);},
+          child: Container(
+        width: media.size.width * (17 / 20),
+        height: (media.size.width * (17 / 20)) / 6,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15),blurRadius: 0.5,spreadRadius: 0.5),],
+            borderRadius:
+                BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
+        child: new Center(
+          child: new Text(title,style: titleStyle,),
+        ),
       ),
     );
   }
   Widget registerButton(BuildContext context) {
     final media = MediaQuery.of(context);
     final String title = "Sign Up";
-    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 22,color: Color.fromRGBO(101, 173, 132, 1),fontStyle: FontStyle.italic);
+    final TextStyle titleStyle = new TextStyle(fontFamily: "HelveticaNeue",fontSize: 22,color: Color.fromRGBO(101, 173, 132, 1),fontWeight: FontWeight.w100);
 
-    return Container(
-      width: media.size.width * (17 / 20),
-      height: (media.size.width * (17 / 20)) / 6,
-      decoration: BoxDecoration(
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15),blurRadius: 0.5,spreadRadius: 0.5),],
+    return CupertinoButton(
+      onPressed: () {Navigator.pushNamed(context, SignUpPage);},
+          child: Container(
+        width: media.size.width * (17 / 20),
+        height: (media.size.width * (17 / 20)) / 6,
+        decoration: BoxDecoration(
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15),blurRadius: 0.5,spreadRadius: 0.5),],
 
-        color: Colors.white,
-          borderRadius:
-              BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
-              child: new Center(
-        child: new Text(title,style: titleStyle,),
+          color: Colors.white,
+            borderRadius:
+                BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
+                child: new Center(
+          child: new Text(title,style: titleStyle,),
+        ),
       ),
     );
   }

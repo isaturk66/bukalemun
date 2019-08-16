@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bukalemun/Constants/routerConstants.dart';
 
 class LoginPage extends StatelessWidget {
+  static final _formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -53,35 +54,63 @@ class LoginPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: new Column(
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
-                            width: media.size.width,
-                            child: new Text(
-                              "Login",
-                              style: new TextStyle(
-                                  color: Color.fromRGBO(17, 172, 83, 1),
-                                  fontSize: 28),
-                            )),
-                        Container(
-                          height: 60,
-                            margin: EdgeInsets.fromLTRB(25, 25, 25, 0),
-                            child: new TextFormField(
-                              decoration: InputDecoration(
-                                  labelText: 'Enter your username or e-mail',),
-                                  cursorColor: Color.fromRGBO(17, 172, 83, 1)
-                            )),
-                            Container(
-                          height: 60,
-                            margin: EdgeInsets.fromLTRB(25, 25, 25, 0),
-                            child: new TextFormField(
-                              decoration: InputDecoration(
-                                  labelText: 'Enter your password',),
-                                  cursorColor: Color.fromRGBO(17, 172, 83, 1)
-                            )),
-                            loginButton(context)
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          child: new Column(
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                  width: media.size.width,
+                                  child: new Text(
+                                    "Login",
+                                    style: new TextStyle(
+                                        color: Color.fromRGBO(17, 172, 83, 1),
+                                        fontSize: 28),
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(25, 25, 25, 0),
+                                  child: new Theme(
+                                      data: new ThemeData(
+                                          primaryColor:
+                                              Color.fromRGBO(17, 172, 83, 1)),
+                                      child: new TextFormField(
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'This place cannot be empty';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText:
+                                                'Enter your username or e-mail',
+                                          ),
+                                          cursorColor:
+                                              Color.fromRGBO(17, 172, 83, 1)))),
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(25, 25, 25, 0),
+                                  child: new Theme(
+                                      data: new ThemeData(
+                                          primaryColor:
+                                              Color.fromRGBO(17, 172, 83, 1)),
+                                      child: new TextFormField(
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'This place cannot be empty';
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: 'Enter your password',
+                                          ),
+                                          cursorColor:
+                                              Color.fromRGBO(17, 172, 83, 1)))),
+                              loginButton(context, _formKey)
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -94,39 +123,48 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-  Widget loginButton(BuildContext context) {
-    final media = MediaQuery.of(context);
-    final String title = "Login";
-    final TextStyle titleStyle = new TextStyle(
-        fontFamily: "HelveticaNeue",
-        fontSize: 22,
-        color: Colors.white,
-        fontWeight: FontWeight.w100);
+Widget loginButton(BuildContext context, GlobalKey<FormState> _formKey) {
+  final media = MediaQuery.of(context);
+  final String title = "Login";
+  final TextStyle titleStyle = new TextStyle(
+      fontFamily: "HelveticaNeue",
+      fontSize: 22,
+      color: Colors.white,
+      fontWeight: FontWeight.w100);
 
-    return CupertinoButton(
-      onPressed: () {
-        Navigator.pushNamed(context, PreIndex);
-      },
-      child: Container(
-        margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-        width: media.size.width * (17 / 20),
-        height: (media.size.width * (17 / 20)) / 7,
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(17, 172, 83, 1),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 0.5,
-                  spreadRadius: 0.5),
-            ],
-            borderRadius:
-                BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
-        child: new Center(
-          child: new Text(
-            title,
-            style: titleStyle,
+  return Container(
+    margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+    child: SizedBox(
+      width: media.size.width * (16 / 20),
+      height: (media.size.width * (17 / 20)) / 7,
+      child: MaterialButton(
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            // If the form is valid, display a Snackbar.
+            Navigator.pushNamed(context, PreIndex);
+          }
+        },
+        child: Container(
+          width: media.size.width * (17 / 20),
+          height: (media.size.width * (17 / 20)) / 7,
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(17, 172, 83, 1),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 0.5,
+                    spreadRadius: 0.5),
+              ],
+              borderRadius:
+                  BorderRadius.circular((media.size.width * (17 / 20)) / 6)),
+          child: new Center(
+            child: new Text(
+              title,
+              style: titleStyle,
+            ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}

@@ -7,7 +7,14 @@ class ProfileStack extends StatefulWidget {
   final String friendsNum;
   final String experiencesNum;
 
-  const ProfileStack({Key key, this.image, this.nameSurname, this.school, this.friendsNum, this.experiencesNum}): super(key: key);
+  const ProfileStack(
+      {Key key,
+      this.image,
+      this.nameSurname,
+      this.school,
+      this.friendsNum,
+      this.experiencesNum})
+      : super(key: key);
   _ProfileStackState createState() => _ProfileStackState();
 }
 

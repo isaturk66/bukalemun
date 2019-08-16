@@ -57,6 +57,9 @@ flutter:
     - assets/assets/hybridBackGround.png
     - assets/assets/hybridBrand.png
     - assets/assets/loginHeader.png
+    - assets/assets/signUpFooter.png
+    - assets/assets/insta.png
+    - assets/assets/snap.png
   fonts:
     - family: HelveticaNeuee
       fonts:
