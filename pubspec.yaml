@@ -60,6 +60,25 @@ flutter:
     - assets/assets/signUpFooter.png
     - assets/assets/insta.png
     - assets/assets/snap.png
+    - assets/assets/school1.png
+    - assets/assets/school2.png
+    - assets/assets/school3.png
+    - assets/assets/school4.png
+    - assets/assets/school5.png
+    - assets/assets/school6.png
+    - assets/assets/school7.png
+    - assets/assets/school8.png
+    - assets/assets/school9.png
+    - assets/assets/school10.png
+    - assets/assets/school11.png
+    - assets/assets/school12.png
+    - assets/assets/school13.png
+    - assets/assets/school14.png
+    - assets/assets/school15.png
+    - assets/assets/school16.png
+    - assets/assets/school17.png
+    - assets/assets/school18.png
+    - assets/assets/school19.png
   fonts:
     - family: HelveticaNeuee
       fonts:
