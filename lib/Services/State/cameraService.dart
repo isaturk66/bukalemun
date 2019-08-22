@@ -19,7 +19,7 @@ class CameraService extends ChangeNotifier {
   Future<void> setupCameras() async {
     try {
      final  cameras = await availableCameras();
-      _controller = new  CameraController(cameras[0], ResolutionPreset.high);
+      _controller = new  CameraController(cameras[0], ResolutionPreset.medium);
       await _controller.initialize();
       print("Camera initialization is complete and the result is : "+_controller.value.isInitialized.toString());
     } on CameraException catch (_) {

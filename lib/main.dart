@@ -1,10 +1,11 @@
 import 'package:bukalemun/Constants/routerConstants.dart';
+import 'package:bukalemun/Services/State/authState.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bukalemun/Services/router.dart' as router;
 import 'package:provider/provider.dart';
 
-import 'Services/cameraService.dart';
+import 'package:bukalemun/Services/State/cameraService.dart';
 
 void main(){ 
   Provider.debugCheckInvalidValueType = null;
@@ -12,9 +13,12 @@ void main(){
   service.setupCameras();
   print("runApp is working now");
   runApp(
-    Provider<CameraService>.value( ///Camera State
-      value: service,
-      child: Main()
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (context) => AuthState()),
+        Provider<CameraService>.value(value: service)
+      ],
+      child: Main(),
     )
   );
 }

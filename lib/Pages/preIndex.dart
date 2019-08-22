@@ -1,6 +1,6 @@
 import 'package:bukalemun/Pages/indexPage.dart';
 import 'package:bukalemun/Pages/splashScreen.dart';
-import 'package:bukalemun/Services/cameraService.dart';
+import 'package:bukalemun/Services/State/cameraService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

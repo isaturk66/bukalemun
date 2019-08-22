@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
+  http: 
   provider:
   flare_flutter: ^1.5.5
   camera: ^0.5.3
@@ -78,7 +79,6 @@ flutter:
     - assets/assets/school16.png
     - assets/assets/school17.png
     - assets/assets/school18.png
-    - assets/assets/school19.png
   fonts:
     - family: HelveticaNeuee
       fonts:

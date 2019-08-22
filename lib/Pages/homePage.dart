@@ -1,4 +1,4 @@
-import 'package:bukalemun/Services/cameraService.dart';
+import 'package:bukalemun/Services/State/cameraService.dart';
 import 'package:camera/camera.dart';
 import 'package:camera/new/src/common/camera_interface.dart';
 import 'package:flutter/cupertino.dart';

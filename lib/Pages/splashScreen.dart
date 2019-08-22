@@ -1,5 +1,5 @@
 import 'package:bukalemun/Constants/routerConstants.dart';
-import 'package:bukalemun/Services/cameraService.dart';
+import 'package:bukalemun/Services/State/cameraService.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
