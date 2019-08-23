@@ -133,13 +133,27 @@ class _ProfileStackState extends State<ProfileStack> {
         new Positioned(
           bottom: 0,
           left: (media.size.width / 2) - (media.size.width / 6),
-          child: new ClipRRect(
-            borderRadius: new BorderRadius.circular(media.size.width / 1.5),
-            child: new Container(
-              width: media.size.width / 3,
-              child: widget.image,
+          child: Stack(children: <Widget>[
+            new ClipRRect(
+              borderRadius: new BorderRadius.circular(media.size.width / 1.5),
+              child: new Container(
+                width: media.size.width / 3,
+                child: widget.image,
+              ),
             ),
-          ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                width: 40,
+                child: new FloatingActionButton(
+                  backgroundColor: Colors.white,
+                  child: new Icon(Icons.edit, color: Color.fromRGBO(17, 172, 83, 1),),
+                  onPressed: () {},
+                ),
+              ),
+            )
+          ]),
         ),
       ],
     );
