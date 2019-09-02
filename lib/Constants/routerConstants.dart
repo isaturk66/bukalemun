@@ -8,4 +8,6 @@ const String
      Splash = "/Splash",
      HybridAuth = "/Auth/Hybrid",
      LoginPage = "/Auth/LoginPage",
-     SignUpPage = "/Auth/SignUpPage";
+     SignUpPage = "/Auth/SignUpPage",
+     SchoolPage = "/Auth/SchoolPage"
+     ;

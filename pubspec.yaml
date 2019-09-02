@@ -79,6 +79,7 @@ flutter:
     - assets/assets/school16.png
     - assets/assets/school17.png
     - assets/assets/school18.png
+    - assets/assets/camBtn.png
   fonts:
     - family: HelveticaNeuee
       fonts:

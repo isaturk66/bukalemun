@@ -9,8 +9,8 @@ class Auth{
     return response;
   } 
 
-  static Future<int> register({var username,var password,var email,var fullname,var school}) async{
+  static Future<http.Response> register({var username,var password,var email,var fullname,var school}) async{
     var response = await http.post(registerRoute, body: {'userName': username, 'password' : password,'email': email,'fullName' : fullname,'school':  school});
-    return response.statusCode;
+    return response;
   }
 }

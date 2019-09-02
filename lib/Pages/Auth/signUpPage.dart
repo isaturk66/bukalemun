@@ -1,3 +1,5 @@
+import 'package:bukalemun/Constants/routerConstants.dart' as prefix1;
+import 'package:bukalemun/Model/args/schoolNavigatonObject.dart';
 import 'package:bukalemun/Pages/Auth/schoolPage.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:bukalemun/Constants/routerConstants.dart';
@@ -167,8 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 labelText: 'Enter your password again',
                               ),
                               cursorColor: Color.fromRGBO(17, 172, 83, 1)))),
-                  submitButton(
-                      context,
+                  SubmitButton(
                       SignUpPage._formKey,
                       nameController.text,
                       usernameController.text,
@@ -182,16 +183,49 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
 
-  Widget submitButton(BuildContext context, GlobalKey<FormState> _formKey,
-      String nameSurname, String username, String email, String password) {
+class SubmitButton extends StatelessWidget {
+
+  var snack404 = SnackBar(content: Text('Bilinmeyen Bir Hata Oluştu. Yakında Tekrar Denersin Artık'));
+  var snack900 = SnackBar(content: Text('Bu e-mail halihazırda kullanılıyor, belki kardeşin çalmıştır'));
+
+  final GlobalKey<FormState> _formKey;
+  final String nameSurname,username,email,password;
+  SubmitButton(this._formKey,this.nameSurname,this.username,this.email,this.password);
+_navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.pushNamed(
+      context,
+      // Create the SelectionScreen in the next step.
+      prefix1.SchoolPage,
+      arguments: SchoolNavigationObject(
+        nameSurname: nameSurname,
+        email: email,
+        password: password,
+        username: username,
+      ),
+    );
+    if(result == "404"){
+      Scaffold.of(context).showSnackBar(snack404);
+    }
+    if(result == "900"){
+      Scaffold.of(context).showSnackBar(snack900);
+    }
+  }
+
+
+   
+  @override
+  Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
     final String title = "Continue";
     final TextStyle titleStyle = new TextStyle(
         fontFamily: "HelveticaNeue",
         fontSize: 20,
         color: Colors.white,
-        fontWeight: FontWeight.w100);
+        fontWeight: FontWeight.w100);  
 
     return Container(
       margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -202,13 +236,7 @@ class _SignUpPageState extends State<SignUpPage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               // If the form is valid, display a Snackbar.
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      SchoolPage(nameSurname, username, password, email),
-                ),
-              );
+              _navigateAndDisplaySelection(context);
             }
           },
           child: Container(

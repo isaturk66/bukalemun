@@ -9,6 +9,9 @@ class AuthState extends ChangeNotifier{
   User _currentUser;
 
   get currentUser => _currentUser;
+  set currentUser(var data){
+    _currentUser = data;
+  }
 
   initiateLogin(var _email,var _password) async{
     Response response = await Auth.login(email: _email,password: _password);

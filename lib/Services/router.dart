@@ -38,6 +38,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         return MaterialPageRoute(builder: (context) => prefix4.SignUpPage());
     }
       break;
+      case SchoolPage : {
+        return MaterialPageRoute(builder: (context) => prefix5.SchoolPage(settings.arguments));
+      }
+      break;
     
   }
 

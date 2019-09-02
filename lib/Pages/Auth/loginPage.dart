@@ -1,16 +1,34 @@
+
+import 'package:bukalemun/Services/State/authState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bukalemun/Constants/routerConstants.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
-  static final _formKey = new GlobalKey<FormState>();
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+ static final _formKey = new GlobalKey<FormState>();
+  
+  final emailFieldController = TextEditingController();
+  final passwordFieldController = TextEditingController();
+
+  FocusNode emailfocus,passwordfocus;
+
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    // TODO: implement build
+    var authState  = Provider.of<AuthState>(context);
+
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
-      body: new Column(
+      body:SingleChildScrollView(
+        child:  new Column(
         children: <Widget>[
           new Stack(
             children: <Widget>[
@@ -76,6 +94,13 @@ class LoginPage extends StatelessWidget {
                                           primaryColor:
                                               Color.fromRGBO(17, 172, 83, 1)),
                                       child: new TextFormField(
+                                          controller: emailFieldController,
+                                          focusNode: emailfocus,
+                                            onFieldSubmitted: (term){
+                                              print("submit");
+                                              emailfocus.unfocus();
+                                              FocusScope.of(context).requestFocus(passwordfocus);  
+                                            },
                                           validator: (value) {
                                             if (value.isEmpty) {
                                               return 'This place cannot be empty';
@@ -84,7 +109,7 @@ class LoginPage extends StatelessWidget {
                                           },
                                           decoration: InputDecoration(
                                             labelText:
-                                                'Enter your username or e-mail',
+                                                'Enter your e-mail',
                                           ),
                                           cursorColor:
                                               Color.fromRGBO(17, 172, 83, 1)))),
@@ -95,6 +120,11 @@ class LoginPage extends StatelessWidget {
                                           primaryColor:
                                               Color.fromRGBO(17, 172, 83, 1)),
                                       child: new TextFormField(
+                                        controller: passwordFieldController,
+                                          focusNode: passwordfocus,
+                                          onFieldSubmitted: (term){
+                                              passwordfocus.unfocus();
+                                            },
                                           validator: (value) {
                                             if (value.isEmpty) {
                                               return 'This place cannot be empty';
@@ -106,7 +136,7 @@ class LoginPage extends StatelessWidget {
                                           ),
                                           cursorColor:
                                               Color.fromRGBO(17, 172, 83, 1)))),
-                              loginButton(context, _formKey)
+                              LoginButton(formKey : _formKey, emailFieldController: emailFieldController, passwordFieldController: passwordFieldController,)
                             ],
                           ),
                         ),
@@ -119,30 +149,62 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
+      )
     );
   }
 }
 
-Widget loginButton(BuildContext context, GlobalKey<FormState> _formKey) {
-  final media = MediaQuery.of(context);
-  final String title = "Login";
-  final TextStyle titleStyle = new TextStyle(
-      fontFamily: "HelveticaNeue",
-      fontSize: 22,
-      color: Colors.white,
-      fontWeight: FontWeight.w100);
 
-  return Container(
+void submitForm(BuildContext context,var authState,GlobalKey<FormState> formKey,TextEditingController emailFieldController,TextEditingController passwordFieldController) async{
+
+ var snack404 = SnackBar(content: Text('Bilinmeyen Bir Hata Oluştu. Yakında Tekrar Denersin Artık'));
+  var snack900 = SnackBar(content: Text('Dostum Emailini Bulamadım. Kayıt Olmayı Unutmuş Olabilirsin'));
+  var snack901 = SnackBar(content: Text('Şifre Yanlış Oldu. Lanet AutoComplete!!!'));
+
+  if (formKey.currentState.validate()) {
+            // If the form is valid, display a Snackbar.
+       var response = await authState.initiateLogin(emailFieldController.text, passwordFieldController.text);
+       if(response == 200){
+         Navigator.of(context).pushNamed(PreIndex);
+       }else if(response == 900){
+         Scaffold.of(context).showSnackBar(snack900);
+       }else if(response == 901){
+         Scaffold.of(context).showSnackBar(snack901);
+       }else{
+        Scaffold.of(context).showSnackBar(snack404);
+       }
+          
+      }
+}
+
+class LoginButton extends StatelessWidget {
+   LoginButton({Key key,this.formKey,this.emailFieldController,this.passwordFieldController}) : super(key: key);
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailFieldController,passwordFieldController;
+ 
+  final TextStyle titleStyle = new TextStyle(
+        fontFamily: "HelveticaNeue",
+        fontSize: 22,
+        color: Colors.white,
+        fontWeight: FontWeight.w100);
+
+
+  @override
+  Widget build(BuildContext context) {
+      var authState  = Provider.of<AuthState>(context);
+      final media = MediaQuery.of(context);
+      final String title = "Login";
+
+
+    return Container(
     margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
     child: SizedBox(
       width: media.size.width * (16 / 20),
       height: (media.size.width * (17 / 20)) / 7,
       child: MaterialButton(
         onPressed: () {
-          if (_formKey.currentState.validate()) {
-            // If the form is valid, display a Snackbar.
-            Navigator.pushNamed(context, PreIndex);
-          }
+            submitForm(context, authState, formKey, emailFieldController, passwordFieldController);
+
         },
         child: Container(
           width: media.size.width * (17 / 20),
@@ -167,4 +229,5 @@ Widget loginButton(BuildContext context, GlobalKey<FormState> _formKey) {
       ),
     ),
   );
+  }
 }

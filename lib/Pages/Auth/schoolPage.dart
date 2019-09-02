@@ -1,13 +1,70 @@
+import 'package:bukalemun/Model/UserModel.dart';
+import 'package:bukalemun/Model/args/schoolNavigatonObject.dart';
+import 'package:bukalemun/Model/schoolsModel.dart';
+import 'package:bukalemun/Services/State/authState.dart';
+import 'package:bukalemun/Services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bukalemun/Constants/routerConstants.dart';
+import 'package:bukalemun/Services/schools.dart';
+import 'package:provider/provider.dart';
 
-class SchoolPage extends StatelessWidget {
-  final String nameSurname;
-  final String username;
-  final String password;
-  final String email;
 
-  SchoolPage(this.email, this.nameSurname, this.password, this.username);
+
+class SchoolPage extends StatefulWidget {
+ final SchoolNavigationObject passeddata;
+
+  SchoolPage(this.passeddata);
+
+  @override
+  _SchoolPageState createState() => _SchoolPageState();
+}
+
+class _SchoolPageState extends State<SchoolPage> {
+  List<SchoolModel> pageData;
+  
+  getInstance() async{
+   List<SchoolModel> response = await Schools.getSchools();
+    setState(() {
+     pageData = response;
+     print(pageData[0].name);
+    });
+  }
+
+  fetchData(SchoolModel selected)async{
+
+    var response = await Auth.register(
+      username: widget.passeddata.username,
+      password: widget.passeddata.password,
+      email:  widget.passeddata.email,
+      fullname: widget.passeddata.nameSurname,
+      school: selected.name,
+    );
+    return response;
+  }
+  postRegister(SchoolModel selected,BuildContext context)async{
+    var authState = Provider.of<AuthState>(context);
+    var response = await fetchData(selected);
+
+    if(response.statusCode == 200){
+      //Success!!
+     var subresponse = await authState.initiateLogin(widget.passeddata.email,widget.passeddata.password);
+     if(subresponse == 200){
+       Navigator.of(context).pushNamed(PreIndex);
+     }else {
+       Navigator.pop(context,"404");
+     }
+    }else if(response.body == "900"){
+      Navigator.pop(context,"900");
+    }else {
+      Navigator.pop(context,"404");
+    }
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +87,32 @@ class SchoolPage extends StatelessWidget {
                 style: new TextStyle(
                     color: Color.fromRGBO(17, 172, 83, 1), fontSize: 28),
               )),
-              Container(
-                height: media.size.height - 200,
+
+              pageData != null ? Flexible(
                 child: GridView.count(
           // Create a grid with 2 columns. If you change the scrollDirection to
           // horizontal, this produces 2 rows.
           crossAxisCount: 3,
           // Generate 100 widgets that display their index in the List.
-          children: List.generate(19, (index) {
-            final i = index + 1;
+          children: List.generate(pageData.length, (index) {
             return Center(
                 child: MaterialButton(
-                  onPressed: () {Navigator.pushNamed(context, PreIndex);},
-                    child: Image.asset("assets/assets/school$i.png"),
+                  onPressed: () {
+                    postRegister(pageData[index], context);  
+
+                  },
+                    child: Image.network(pageData[index].iconUrl),
                 )
             );
           }),
         ),
-              ),
+        )
+        :
+        new Container(),
         ],
       ),
     );
   }
 }
+
+

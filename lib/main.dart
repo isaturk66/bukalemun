@@ -33,7 +33,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: router.generateRoute,
-      initialRoute: Splash,
+      initialRoute: PreIndex,
     );
   }
 }

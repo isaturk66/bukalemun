@@ -1,4 +1,7 @@
+import 'package:bukalemun/Model/UserModel.dart';
+import 'package:bukalemun/Services/State/authState.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Components/ProfileStack.dart';
 import '../Components/ConferenceCard.dart';
 
@@ -8,9 +11,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User currentUser;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    var authState  = Provider.of<AuthState>(context);
+    currentUser = authState.currentUser;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final strings = ["one","two","three","one","two","three","one","two","three"];
+
+    
+
+
     return new Scaffold(
       backgroundColor: Color.fromRGBO(17, 172, 83, 1),
       body: new SingleChildScrollView(
@@ -22,15 +40,15 @@ class _ProfilePageState extends State<ProfilePage> {
               new ProfileStack(
                 image: new Image.network(
                     "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg"),
-                nameSurname: "Ahmet Emre Gucer",
-                school: "The Koc School",
-                experiencesNum: "6462",
-                friendsNum: "6462",
+                nameSurname: currentUser.fullname,
+                school: currentUser.school,
+                experiencesNum: currentUser.experiences.length.toString(),
+                friendsNum: currentUser.friends.length.toString(),
               ),
               Container(
                   margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                   child: new Text(
-                    "@emregucerr",
+                    "@"+currentUser.username,
                     style: new TextStyle(
                         color: Color.fromRGBO(17, 172, 83, 1),
                         fontSize: 18,
